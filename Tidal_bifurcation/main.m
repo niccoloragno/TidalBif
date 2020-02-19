@@ -41,25 +41,21 @@ ra=1;    % Ratio between main channel width and sum of downstream widths (Wa/(Wb
 rb=0.5;  % Width of channel B relative to the sum of downstream widths (Wb/(Wb+Wc))
 rc=1-rb;
 
-
 %% Solution of the non-linear system
 
-N=150;
+N=100;
 beta_min=4;
 beta_max=30;
 beta_list=linspace(beta_min,beta_max,N);
 
-% theta_min=0.5;
-% theta_max=5;
-% theta_list=linspace(theta_min,theta_max,N);
+theta_min=0.5;
+theta_max=5;
+theta_list=linspace(theta_min,theta_max,N);
 
 zeta_list=[-1,-0.75,-0.5,-0.25,-0.1];
 epsilon_list=[0,0.1,0.2,0.3,0.4];
 Neps=length(epsilon_list);
 Nzeta=length(zeta_list);
-theta_list=[0.5,1,1.5,2,2.5];
-N_theta=length(theta_list);
-
 
 % for s=1:Neps
 %     epsilon_b=epsilon_list(s);
@@ -124,32 +120,32 @@ N_theta=length(theta_list);
 %         end
 %     end
 
-%% Computation of critical aspect ratio
+%% Computation of the critical aspect ratio
 
-%     for t=1:Nzeta
-%         zeta=zeta_list(t);
-%         for k=1:N
-%             theta_a=theta_list(k);
-%             param.g=g;
-%             param.alpha=alpha;
-%             param.r=r;
-%             param.i=i;
-%             param.zeta=zeta;
-%             param.theta_a=theta_a;
-%             param.beta_a=beta_a;
-%             param.epsilon=epsilon;
-%             param.Delta=Delta;
-%             param.lambda_a=lambda_a;
-%             param.omega_star=omega_star;
-%             param.qa=qa;
-%             param.qsa=qsa;
-%             param.ra=ra;
-%             param.rb=rb;
-%             beta_C(k,t)=beta_crit(param);
-%         end
-%     end
+for t=1:Nzeta
+    epsilon=epsilon_list(t);
+    for k=1:N
+        theta_a=theta_list(k);
+        param.g=g;
+        param.alpha=alpha;
+        param.r=r;
+        param.i=i;
+        param.zeta=zeta;
+        param.theta_a=theta_a;
+        param.beta_a=beta_a;
+        param.epsilon=epsilon;
+        param.Delta=Delta;
+        param.lambda_a=lambda_a;
+        param.omega_star=omega_star;
+        param.qa=qa;
+        param.qsa=qsa;
+        param.ra=ra;
+        param.rb=rb;
+        beta_C(k,t)=beta_crit(param);
+    end
+end
 
-%% Computation of critical length
+%% Computation of the critical length
 
 % for t=1:Ntheta
 %     theta_a=theta_list(t);
@@ -181,4 +177,16 @@ N_theta=length(theta_list);
 %          Length_C(t,1:indmax)=NaN;
 % end
 
+%% Plot
 
+figure('Name','Critical aspect ratio')
+pl1=plot(theta_list,beta_C(:,1),'k-','Linewidth',1.2);
+hold on
+pl2=plot(theta_list,beta_C(:,2),'b-','Linewidth',1);
+pl3=plot(theta_list,beta_C(:,3),'g-.','Linewidth',1);
+pl4=plot(theta_list,beta_C(:,4),'--r','Linewidth',1);
+pl5=plot(theta_list,beta_C(:,5),'m-.','Linewidth',1);
+grid on
+legend([pl1(1),pl2(1),pl3(1),pl4(1),pl5(1)],{'$\epsilon=0$','$\epsilon=0.1$','$\epsilon=0.2$','$\epsilon=0.3$','$\epsilon=0.4$'},'FontSize',10,'Location','NE','NumColumns',1,'Interpreter','latex');
+xlabel('Shields stress $\theta_a$','Interpreter','latex')
+ylabel('Critical aspect ratio $\beta_{cr}$','Interpreter','latex')
