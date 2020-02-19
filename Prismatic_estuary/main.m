@@ -2,6 +2,7 @@
 % Morphodynamic equilibrium of a convergent tidal channel: fluvial case (Seminara et al., 2012)
 % Authors: NiccolÃ² Ragno
 % Modified on: 1-February-2020
+% Open Source code, distributed under GNU General Public Licence (GPLv3)
 % ******************************************************************************************************
 
 close all
@@ -21,15 +22,8 @@ g=9.81;             % gravity acceleration [m/s2]
 Delta=1.65;         % Submerged density of sediments
 i=sqrt(-1);         % Imaginary unit
 
-cu=4.88*(1/dsu)^(0.083)         % Dimensionless Chézy coefficient -> Wilkerson & Parker formula (2011)
-%cu=6.+2.5*log(1/(2.5*dsu))     %  "    "    "    -> %Engelund & Fredsoe (1978)
 Du_star=Bu_star/beta_u          % Water depth [m]
 Su=theta_u*dsu*Delta            % Channel slope
-ds_star=dsu*Du_star;            % Grain size [m]
-Qu_star=Bu_star*Du_star^(3/2)*cu*sqrt(Su*g) % Water discharge [m3/s]
-Phitheta_u=0.05*cu^2 * theta_u^(2.5);       % Dimensionless sediment transport function -> Engelund & Hansen (1967)
-Qsu_star=Bu_star*sqrt(g*Delta*(dsu*Du_star)^3)*Phitheta_u   % Solid discharge
-Fu=cu*sqrt(Su)                  % Froude number
 
 a0_star=epsilon*Du_star;        % Tide amplitude [m]
 T_star=43200;                   % Tide period [s]
@@ -58,8 +52,6 @@ for j=1:Nepsilon
         %% First order
         
         q_11(j,k)=(i*lambda)./(2*mu);
-        D_11(j,k)=0.5;
-        h_11(j,k)=D_11(j,k);
         h_10(j,k)=0;
         
         %% Second order
