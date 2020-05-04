@@ -3,7 +3,11 @@
 % Authors: Niccolò Ragno
 % Modified on: 19-February-2020
 % Open Source code, distributed under GNU General Public Licence (GPLv3)
+% NB:
+%   *Research code, developed for academic use only!
+%   *Not fully tested: please report possible issues at niccolo.ragno@edu.unige.it
 % ******************************************************************************************************
+
 
 close all
 clear all
